@@ -4,10 +4,21 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-Name: <input id="inputName" placeholder="nhap ten"><br>
-Img: <input id="inputImg" placeholder="nhap anh"><br>
-Content: <input id="inputContent" placeholder="nhap no dung"><br>
+<body style="background: darksalmon">
+<table>
+<tr>
+    <td><b>Name:</b></td>
+    <td><input id="inputName" placeholder="nhap ten"><br></td>
+</tr>
+<tr>
+    <td><b>Img:</b></td>
+    <td><input id="inputImg" placeholder="nhap anh"><br></td>
+</tr>
+<tr>
+    <td><b>Content: </b></td>
+    <td><input id="inputContent" placeholder="nhap no dung"><br></td>
+</tr>
+</table>
 <button onclick="add()">ADD</button>
 <h1>Danh sach chinh sua</h1>
 <table id="suti" width="400"></table>
@@ -26,24 +37,24 @@ Content: <input id="inputContent" placeholder="nhap no dung"><br>
         }
     }
 
-    let a = new Student("ten meo", "anh-cho-dep-0.jpg", "dang yeu")
-    let b = new Student("ten cho", "hinh-nen-meo-de-thuong-cho-may-tinh.jpg", "hoho")
-
-    let students = [a, b];
-    let divshow = document.getElementById("suti");
+    let students = JSON.parse(localStorage.getItem("duong"))
+    if (students===null){
+        students=[];
+    }
+    let divShow = document.getElementById("suti")
 
     function show() {
         let str = [];
         for (let i = 0; i < students.length; i++) {
             str += `<tr>
 <td> ${students[i].name}</td>
-<td><img src="${students[i].img}" width="200" height="150"></td>
 <td> ${students[i].content}</td>
+<td><img src="${students[i].img}" width="200" height="150"></td>
 <td><button onclick="edit(${i})">Edit</button></td>
 <td><button onclick="xoa(${i})">Delete</button></td>
 </tr>`
         }
-        divshow.innerHTML = str;
+        divShow.innerHTML = str;
     }
 
     show();
@@ -55,6 +66,7 @@ Content: <input id="inputContent" placeholder="nhap no dung"><br>
         let newObj = new Student(name, img, content);
         students.splice(index, 1, newObj);
         show();
+        localStorage.setItem("duong",JSON.stringify(students));
     }
 
     function add() {
@@ -64,10 +76,13 @@ Content: <input id="inputContent" placeholder="nhap no dung"><br>
         let newObj = new Student(name, img, content);
         students.push(newObj);
         show();
+        localStorage.setItem("duong",JSON.stringify(students));
+
     }
 
     function xoa(index) {
         students.splice(index, 1);
         show();
+        localStorage.setItem("duong",JSON.stringify(students));
     }
 </script>
